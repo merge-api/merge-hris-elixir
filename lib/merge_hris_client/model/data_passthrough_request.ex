@@ -30,8 +30,6 @@ defimpl Poison.Decoder, for: MergeHRISClient.Model.DataPassthroughRequest do
   def decode(value, options) do
     value
     |> deserialize(:"method", :struct, MergeHRISClient.Model.MethodEnum, options)
-    |> deserialize(:"data", :map, MergeHRISClient.Model.AnyType, options)
-    |> deserialize(:"headers", :map, MergeHRISClient.Model.AnyType, options)
   end
 end
 

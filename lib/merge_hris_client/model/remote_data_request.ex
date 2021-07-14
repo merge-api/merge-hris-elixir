@@ -23,7 +23,6 @@ defimpl Poison.Decoder, for: MergeHRISClient.Model.RemoteDataRequest do
   import MergeHRISClient.Deserializer
   def decode(value, options) do
     value
-    |> deserialize(:"data", :map, MergeHRISClient.Model.AnyType, options)
   end
 end
 

@@ -14,6 +14,7 @@ defmodule MergeHRISClient.Model.TimeOffBalance do
     :"employee",
     :"balance",
     :"used",
+    :"policy_type",
     :"remote_data"
   ]
 
@@ -23,6 +24,7 @@ defmodule MergeHRISClient.Model.TimeOffBalance do
     :"employee" => String.t | nil,
     :"balance" => float() | nil,
     :"used" => float() | nil,
+    :"policy_type" => PolicyTypeEnum | nil,
     :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil
   }
 end
@@ -31,6 +33,7 @@ defimpl Poison.Decoder, for: MergeHRISClient.Model.TimeOffBalance do
   import MergeHRISClient.Deserializer
   def decode(value, options) do
     value
+    |> deserialize(:"policy_type", :struct, MergeHRISClient.Model.PolicyTypeEnum, options)
     |> deserialize(:"remote_data", :list, MergeHRISClient.Model.RemoteData, options)
   end
 end

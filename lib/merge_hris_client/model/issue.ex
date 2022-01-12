@@ -34,6 +34,7 @@ defimpl Poison.Decoder, for: MergeHRISClient.Model.Issue do
   def decode(value, options) do
     value
     |> deserialize(:"status", :struct, MergeHRISClient.Model.IssueStatusEnum, options)
+    |> deserialize(:"end_user", :map, MergeHRISClient.Model.AnyType, options)
   end
 end
 

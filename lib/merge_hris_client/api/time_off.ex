@@ -12,6 +12,41 @@ defmodule MergeHRISClient.Api.TimeOff do
 
 
   @doc """
+  Creates a `TimeOff` object with the given values.
+
+  ## Parameters
+
+  - connection (MergeHRISClient.Connection): Connection to server
+  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
+  - x_account_token (String.t): Token identifying the end user.
+  - time_off_endpoint_request (TimeOffEndpointRequest): 
+  - opts (KeywordList): [optional] Optional parameters
+    - :run_async (boolean()): Whether or not third-party updates should be run asynchronously.
+  ## Returns
+
+  {:ok, MergeHRISClient.Model.TimeOffResponse.t} on success
+  {:error, Tesla.Env.t} on failure
+  """
+  @spec time_off_create(Tesla.Env.client, String.t, String.t, MergeHRISClient.Model.TimeOffEndpointRequest.t, keyword()) :: {:ok, MergeHRISClient.Model.TimeOffResponse.t} | {:error, Tesla.Env.t}
+  def time_off_create(connection, authorization, x_account_token, time_off_endpoint_request, opts \\ []) do
+    optional_params = %{
+      :"run_async" => :query
+    }
+    %{}
+    |> method(:post)
+    |> url("/time-off")
+    |> add_param(:headers, :"Authorization", authorization)
+    |> add_param(:headers, :"X-Account-Token", x_account_token)
+    |> add_param(:body, :body, time_off_endpoint_request)
+    |> add_optional_params(optional_params, opts)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> evaluate_response([
+      { 201, %MergeHRISClient.Model.TimeOffResponse{}}
+    ])
+  end
+
+  @doc """
   Returns a list of `TimeOff` objects.
 
   ## Parameters
@@ -26,11 +61,14 @@ defmodule MergeHRISClient.Api.TimeOff do
     - :cursor (String.t): The pagination cursor value.
     - :employee_id (String.t): If provided, will only return time off for this employee.
     - :expand (String.t): Which relations should be returned in expanded form. Multiple relation names should be comma separated without spaces.
+    - :include_deleted_data (boolean()): Whether to include data that was deleted in the third-party service.
     - :include_remote_data (boolean()): Whether to include the original data Merge fetched from the third-party to produce these models.
     - :modified_after (DateTime.t): If provided, will only return objects modified after this datetime.
     - :modified_before (DateTime.t): If provided, will only return objects modified before this datetime.
     - :page_size (integer()): Number of results to return per page.
     - :remote_id (String.t): The API provider's ID for the given object.
+    - :request_type (String.t): If provided, will only return TimeOff with this request type. Options: ('VACATION', 'SICK', 'PERSONAL', 'JURY_DUTY', 'VOLUNTEER', 'BEREAVEMENT')
+    - :status (String.t): If provided, will only return TimeOff with this status. Options: ('REQUESTED', 'APPROVED', 'DECLINED', 'CANCELLED', 'DELETED')
   ## Returns
 
   {:ok, MergeHRISClient.Model.PaginatedTimeOffList.t} on success
@@ -45,11 +83,14 @@ defmodule MergeHRISClient.Api.TimeOff do
       :"cursor" => :query,
       :"employee_id" => :query,
       :"expand" => :query,
+      :"include_deleted_data" => :query,
       :"include_remote_data" => :query,
       :"modified_after" => :query,
       :"modified_before" => :query,
       :"page_size" => :query,
-      :"remote_id" => :query
+      :"remote_id" => :query,
+      :"request_type" => :query,
+      :"status" => :query
     }
     %{}
     |> method(:get)
@@ -65,7 +106,7 @@ defmodule MergeHRISClient.Api.TimeOff do
   end
 
   @doc """
-  Returns an `TimeOff` object with the given `id`.
+  Returns a `TimeOff` object with the given `id`.
 
   ## Parameters
 

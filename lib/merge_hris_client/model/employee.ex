@@ -24,6 +24,7 @@ defmodule MergeHRISClient.Model.Employee do
     :"work_location",
     :"manager",
     :"team",
+    :"pay_group",
     :"ssn",
     :"gender",
     :"ethnicity",
@@ -34,7 +35,8 @@ defmodule MergeHRISClient.Model.Employee do
     :"employment_status",
     :"termination_date",
     :"avatar",
-    :"remote_data"
+    :"remote_data",
+    :"custom_fields"
   ]
 
   @type t :: %__MODULE__{
@@ -53,6 +55,7 @@ defmodule MergeHRISClient.Model.Employee do
     :"work_location" => String.t | nil,
     :"manager" => String.t | nil,
     :"team" => String.t | nil,
+    :"pay_group" => String.t | nil,
     :"ssn" => String.t | nil,
     :"gender" => GenderEnum | nil,
     :"ethnicity" => EthnicityEnum | nil,
@@ -63,7 +66,8 @@ defmodule MergeHRISClient.Model.Employee do
     :"employment_status" => EmploymentStatusEnum | nil,
     :"termination_date" => DateTime.t | nil,
     :"avatar" => String.t | nil,
-    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil
+    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil,
+    :"custom_fields" => %{optional(String.t) => AnyType} | nil
   }
 end
 
@@ -76,6 +80,7 @@ defimpl Poison.Decoder, for: MergeHRISClient.Model.Employee do
     |> deserialize(:"marital_status", :struct, MergeHRISClient.Model.MaritalStatusEnum, options)
     |> deserialize(:"employment_status", :struct, MergeHRISClient.Model.EmploymentStatusEnum, options)
     |> deserialize(:"remote_data", :list, MergeHRISClient.Model.RemoteData, options)
+    |> deserialize(:"custom_fields", :map, MergeHRISClient.Model.AnyType, options)
   end
 end
 

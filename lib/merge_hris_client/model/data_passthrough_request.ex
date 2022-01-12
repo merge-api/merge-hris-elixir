@@ -13,15 +13,17 @@ defmodule MergeHRISClient.Model.DataPassthroughRequest do
     :"path",
     :"base_url_override",
     :"data",
-    :"headers"
+    :"headers",
+    :"request_format"
   ]
 
   @type t :: %__MODULE__{
     :"method" => MethodEnum,
     :"path" => String.t,
     :"base_url_override" => String.t | nil,
-    :"data" => %{optional(String.t) => AnyType} | nil,
-    :"headers" => %{optional(String.t) => AnyType} | nil
+    :"data" => String.t | nil,
+    :"headers" => %{optional(String.t) => AnyType} | nil,
+    :"request_format" => RequestFormatEnum | nil
   }
 end
 
@@ -30,6 +32,8 @@ defimpl Poison.Decoder, for: MergeHRISClient.Model.DataPassthroughRequest do
   def decode(value, options) do
     value
     |> deserialize(:"method", :struct, MergeHRISClient.Model.MethodEnum, options)
+    |> deserialize(:"headers", :map, MergeHRISClient.Model.AnyType, options)
+    |> deserialize(:"request_format", :struct, MergeHRISClient.Model.RequestFormatEnum, options)
   end
 end
 

@@ -11,6 +11,7 @@ defmodule MergeHRISClient.Model.Employment do
   defstruct [
     :"id",
     :"remote_id",
+    :"employee",
     :"job_title",
     :"pay_rate",
     :"pay_period",
@@ -25,6 +26,7 @@ defmodule MergeHRISClient.Model.Employment do
   @type t :: %__MODULE__{
     :"id" => String.t | nil,
     :"remote_id" => String.t | nil,
+    :"employee" => String.t | nil,
     :"job_title" => String.t | nil,
     :"pay_rate" => float() | nil,
     :"pay_period" => PayPeriodEnum | nil,

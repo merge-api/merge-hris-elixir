@@ -12,42 +12,6 @@ defmodule MergeHRISClient.Api.Employees do
 
 
   @doc """
-  Creates an `Employee` object with the given values.
-
-  ## Parameters
-
-  - connection (MergeHRISClient.Connection): Connection to server
-  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
-  - x_account_token (String.t): Token identifying the end user.
-  - opts (KeywordList): [optional] Optional parameters
-    - :run_async (boolean()): Whether or not third-party updates should be run asynchronously.
-    - :body (EmployeeRequest): 
-  ## Returns
-
-  {:ok, MergeHRISClient.Model.Employee.t} on success
-  {:error, Tesla.Env.t} on failure
-  """
-  @spec employees_create(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.Employee.t} | {:error, Tesla.Env.t}
-  def employees_create(connection, authorization, x_account_token, opts \\ []) do
-    optional_params = %{
-      :"run_async" => :query,
-      :body => :body
-    }
-    %{}
-    |> method(:post)
-    |> url("/employees")
-    |> add_param(:headers, :"Authorization", authorization)
-    |> add_param(:headers, :"X-Account-Token", x_account_token)
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
-    |> Enum.into([])
-    |> (&Connection.request(connection, &1)).()
-    |> evaluate_response([
-      { 200, %MergeHRISClient.Model.Employee{}}
-    ])
-  end
-
-  @doc """
   Returns a list of `Employee` objects.
 
   ## Parameters
@@ -61,14 +25,18 @@ defmodule MergeHRISClient.Api.Employees do
     - :created_before (DateTime.t): If provided, will only return objects created before this datetime.
     - :cursor (String.t): The pagination cursor value.
     - :expand (String.t): Which relations should be returned in expanded form. Multiple relation names should be comma separated without spaces.
+    - :include_deleted_data (boolean()): Whether to include data that was deleted in the third-party service.
     - :include_remote_data (boolean()): Whether to include the original data Merge fetched from the third-party to produce these models.
-    - :include_sensitive_fields (boolean()): Whether to include sensetive fields (such as social security numbers) in the response.
+    - :include_sensitive_fields (boolean()): Whether to include sensitive fields (such as social security numbers) in the response.
     - :manager_id (String.t): If provided, will only return employees for this manager.
     - :modified_after (DateTime.t): If provided, will only return objects modified after this datetime.
     - :modified_before (DateTime.t): If provided, will only return objects modified before this datetime.
     - :page_size (integer()): Number of results to return per page.
+    - :pay_group_id (String.t): If provided, will only return employees for this pay group
+    - :personal_email (String.t): If provided, will only return Employees with this personal email
     - :remote_id (String.t): The API provider's ID for the given object.
     - :team_id (String.t): If provided, will only return employees for this team.
+    - :work_email (String.t): If provided, will only return Employees with this work email
     - :work_location_id (String.t): If provided, will only return employees for this location.
   ## Returns
 
@@ -83,14 +51,18 @@ defmodule MergeHRISClient.Api.Employees do
       :"created_before" => :query,
       :"cursor" => :query,
       :"expand" => :query,
+      :"include_deleted_data" => :query,
       :"include_remote_data" => :query,
       :"include_sensitive_fields" => :query,
       :"manager_id" => :query,
       :"modified_after" => :query,
       :"modified_before" => :query,
       :"page_size" => :query,
+      :"pay_group_id" => :query,
+      :"personal_email" => :query,
       :"remote_id" => :query,
       :"team_id" => :query,
+      :"work_email" => :query,
       :"work_location_id" => :query
     }
     %{}
@@ -118,7 +90,7 @@ defmodule MergeHRISClient.Api.Employees do
   - opts (KeywordList): [optional] Optional parameters
     - :expand (String.t): Which relations should be returned in expanded form. Multiple relation names should be comma separated without spaces.
     - :include_remote_data (boolean()): Whether to include the original data Merge fetched from the third-party to produce these models.
-    - :include_sensitive_fields (boolean()): Whether to include sensetive fields (such as social security numbers) in the response.
+    - :include_sensitive_fields (boolean()): Whether to include sensitive fields (such as social security numbers) in the response.
   ## Returns
 
   {:ok, MergeHRISClient.Model.Employee.t} on success

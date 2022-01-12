@@ -17,23 +17,24 @@ defmodule MergeHRISClient.Api.Issues do
   ## Parameters
 
   - connection (MergeHRISClient.Connection): Connection to server
+  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
   - opts (KeywordList): [optional] Optional parameters
-    - :account_token (String.t): account_token
-    - :cursor (integer()): The pagination cursor value.
+    - :account_token (String.t): 
+    - :cursor (String.t): The pagination cursor value.
     - :end_date (String.t): If included, will only include issues whose most recent action occurred before this time
-    - :end_user_organization_name (String.t): end_user_organization_name
+    - :end_user_organization_name (String.t): 
     - :include_muted (String.t): If True, will include muted issues
-    - :integration_name (String.t): integration_name
+    - :integration_name (String.t): 
     - :page_size (integer()): Number of results to return per page.
     - :start_date (String.t): If included, will only include issues whose most recent action occurred after this time
-    - :status (String.t): status
+    - :status (String.t): 
   ## Returns
 
   {:ok, MergeHRISClient.Model.PaginatedIssueList.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec issues_list(Tesla.Env.client, keyword()) :: {:ok, MergeHRISClient.Model.PaginatedIssueList.t} | {:error, Tesla.Env.t}
-  def issues_list(connection, opts \\ []) do
+  @spec issues_list(Tesla.Env.client, String.t, keyword()) :: {:ok, MergeHRISClient.Model.PaginatedIssueList.t} | {:error, Tesla.Env.t}
+  def issues_list(connection, authorization, opts \\ []) do
     optional_params = %{
       :"account_token" => :query,
       :"cursor" => :query,
@@ -48,6 +49,7 @@ defmodule MergeHRISClient.Api.Issues do
     %{}
     |> method(:get)
     |> url("/issues")
+    |> add_param(:headers, :"Authorization", authorization)
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
@@ -62,6 +64,8 @@ defmodule MergeHRISClient.Api.Issues do
   ## Parameters
 
   - connection (MergeHRISClient.Connection): Connection to server
+  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
+  - x_account_token (String.t): Token identifying the end user.
   - id (String.t): 
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -69,11 +73,13 @@ defmodule MergeHRISClient.Api.Issues do
   {:ok, MergeHRISClient.Model.Issue.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec issues_retrieve(Tesla.Env.client, String.t, keyword()) :: {:ok, MergeHRISClient.Model.Issue.t} | {:error, Tesla.Env.t}
-  def issues_retrieve(connection, id, _opts \\ []) do
+  @spec issues_retrieve(Tesla.Env.client, String.t, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.Issue.t} | {:error, Tesla.Env.t}
+  def issues_retrieve(connection, authorization, x_account_token, id, _opts \\ []) do
     %{}
     |> method(:get)
     |> url("/issues/#{id}")
+    |> add_param(:headers, :"Authorization", authorization)
+    |> add_param(:headers, :"X-Account-Token", x_account_token)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([

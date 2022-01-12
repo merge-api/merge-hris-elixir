@@ -12,42 +12,6 @@ defmodule MergeHRISClient.Api.Benefits do
 
 
   @doc """
-  Creates a `Benefit` object with the given values.
-
-  ## Parameters
-
-  - connection (MergeHRISClient.Connection): Connection to server
-  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
-  - x_account_token (String.t): Token identifying the end user.
-  - opts (KeywordList): [optional] Optional parameters
-    - :run_async (boolean()): Whether or not third-party updates should be run asynchronously.
-    - :body (BenefitRequest): 
-  ## Returns
-
-  {:ok, MergeHRISClient.Model.Benefit.t} on success
-  {:error, Tesla.Env.t} on failure
-  """
-  @spec benefits_create(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.Benefit.t} | {:error, Tesla.Env.t}
-  def benefits_create(connection, authorization, x_account_token, opts \\ []) do
-    optional_params = %{
-      :"run_async" => :query,
-      :body => :body
-    }
-    %{}
-    |> method(:post)
-    |> url("/benefits")
-    |> add_param(:headers, :"Authorization", authorization)
-    |> add_param(:headers, :"X-Account-Token", x_account_token)
-    |> add_optional_params(optional_params, opts)
-    |> ensure_body()
-    |> Enum.into([])
-    |> (&Connection.request(connection, &1)).()
-    |> evaluate_response([
-      { 201, %MergeHRISClient.Model.Benefit{}}
-    ])
-  end
-
-  @doc """
   Returns a list of `Benefit` objects.
 
   ## Parameters
@@ -61,6 +25,7 @@ defmodule MergeHRISClient.Api.Benefits do
     - :cursor (String.t): The pagination cursor value.
     - :employee_id (String.t): If provided, will only return time off for this employee.
     - :expand (String.t): Which relations should be returned in expanded form. Multiple relation names should be comma separated without spaces.
+    - :include_deleted_data (boolean()): Whether to include data that was deleted in the third-party service.
     - :include_remote_data (boolean()): Whether to include the original data Merge fetched from the third-party to produce these models.
     - :modified_after (DateTime.t): If provided, will only return objects modified after this datetime.
     - :modified_before (DateTime.t): If provided, will only return objects modified before this datetime.
@@ -79,6 +44,7 @@ defmodule MergeHRISClient.Api.Benefits do
       :"cursor" => :query,
       :"employee_id" => :query,
       :"expand" => :query,
+      :"include_deleted_data" => :query,
       :"include_remote_data" => :query,
       :"modified_after" => :query,
       :"modified_before" => :query,

@@ -2,9 +2,9 @@
 # https://openapi-generator.tech
 # Do not edit the class manually.
 
-defmodule MergeHRISClient.Api.TimeOffBalance do
+defmodule MergeHRISClient.Api.Deductions do
   @moduledoc """
-  API calls for all endpoints tagged `TimeOffBalance`.
+  API calls for all endpoints tagged `Deductions`.
   """
 
   alias MergeHRISClient.Connection
@@ -12,7 +12,7 @@ defmodule MergeHRISClient.Api.TimeOffBalance do
 
 
   @doc """
-  Returns a list of `TimeOffBalance` objects.
+  Returns a list of `Deduction` objects.
 
   ## Parameters
 
@@ -23,8 +23,8 @@ defmodule MergeHRISClient.Api.TimeOffBalance do
     - :created_after (DateTime.t): If provided, will only return objects created after this datetime.
     - :created_before (DateTime.t): If provided, will only return objects created before this datetime.
     - :cursor (String.t): The pagination cursor value.
-    - :employee_id (String.t): If provided, will only return time off balances for this employee.
-    - :expand (String.t): Which relations should be returned in expanded form. Multiple relation names should be comma separated without spaces.
+    - :employee_payroll_run_id (String.t): If provided, will only return deductions for this employee payroll run.
+    - :include_deleted_data (boolean()): Whether to include data that was deleted in the third-party service.
     - :include_remote_data (boolean()): Whether to include the original data Merge fetched from the third-party to produce these models.
     - :modified_after (DateTime.t): If provided, will only return objects modified after this datetime.
     - :modified_before (DateTime.t): If provided, will only return objects modified before this datetime.
@@ -32,17 +32,17 @@ defmodule MergeHRISClient.Api.TimeOffBalance do
     - :remote_id (String.t): The API provider's ID for the given object.
   ## Returns
 
-  {:ok, MergeHRISClient.Model.PaginatedTimeOffBalanceList.t} on success
+  {:ok, MergeHRISClient.Model.PaginatedDeductionList.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec time_off_balance_list(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.PaginatedTimeOffBalanceList.t} | {:error, Tesla.Env.t}
-  def time_off_balance_list(connection, authorization, x_account_token, opts \\ []) do
+  @spec deductions_list(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.PaginatedDeductionList.t} | {:error, Tesla.Env.t}
+  def deductions_list(connection, authorization, x_account_token, opts \\ []) do
     optional_params = %{
       :"created_after" => :query,
       :"created_before" => :query,
       :"cursor" => :query,
-      :"employee_id" => :query,
-      :"expand" => :query,
+      :"employee_payroll_run_id" => :query,
+      :"include_deleted_data" => :query,
       :"include_remote_data" => :query,
       :"modified_after" => :query,
       :"modified_before" => :query,
@@ -51,19 +51,19 @@ defmodule MergeHRISClient.Api.TimeOffBalance do
     }
     %{}
     |> method(:get)
-    |> url("/time-off-balance")
+    |> url("/deductions")
     |> add_param(:headers, :"Authorization", authorization)
     |> add_param(:headers, :"X-Account-Token", x_account_token)
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %MergeHRISClient.Model.PaginatedTimeOffBalanceList{}}
+      { 200, %MergeHRISClient.Model.PaginatedDeductionList{}}
     ])
   end
 
   @doc """
-  Returns an `TimeOffBalance` object with the given `id`.
+  Returns a `Deduction` object with the given `id`.
 
   ## Parameters
 
@@ -72,29 +72,27 @@ defmodule MergeHRISClient.Api.TimeOffBalance do
   - x_account_token (String.t): Token identifying the end user.
   - id (String.t): 
   - opts (KeywordList): [optional] Optional parameters
-    - :expand (String.t): Which relations should be returned in expanded form. Multiple relation names should be comma separated without spaces.
     - :include_remote_data (boolean()): Whether to include the original data Merge fetched from the third-party to produce these models.
   ## Returns
 
-  {:ok, MergeHRISClient.Model.TimeOffBalance.t} on success
+  {:ok, MergeHRISClient.Model.Deduction.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec time_off_balance_retrieve(Tesla.Env.client, String.t, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.TimeOffBalance.t} | {:error, Tesla.Env.t}
-  def time_off_balance_retrieve(connection, authorization, x_account_token, id, opts \\ []) do
+  @spec deductions_retrieve(Tesla.Env.client, String.t, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.Deduction.t} | {:error, Tesla.Env.t}
+  def deductions_retrieve(connection, authorization, x_account_token, id, opts \\ []) do
     optional_params = %{
-      :"expand" => :query,
       :"include_remote_data" => :query
     }
     %{}
     |> method(:get)
-    |> url("/time-off-balance/#{id}")
+    |> url("/deductions/#{id}")
     |> add_param(:headers, :"Authorization", authorization)
     |> add_param(:headers, :"X-Account-Token", x_account_token)
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %MergeHRISClient.Model.TimeOffBalance{}}
+      { 200, %MergeHRISClient.Model.Deduction{}}
     ])
   end
 end

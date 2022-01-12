@@ -2,9 +2,9 @@
 # https://openapi-generator.tech
 # Do not edit the class manually.
 
-defmodule MergeHRISClient.Api.SyncStatus do
+defmodule MergeHRISClient.Api.AccountDetails do
   @moduledoc """
-  API calls for all endpoints tagged `SyncStatus`.
+  API calls for all endpoints tagged `AccountDetails`.
   """
 
   alias MergeHRISClient.Connection
@@ -12,7 +12,7 @@ defmodule MergeHRISClient.Api.SyncStatus do
 
 
   @doc """
-  Get syncing status. Possible values: `DISABLED`, `DONE`, `FAILED`, `SYNCING`
+  Get details for a linked account.
 
   ## Parameters
 
@@ -20,29 +20,22 @@ defmodule MergeHRISClient.Api.SyncStatus do
   - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
   - x_account_token (String.t): Token identifying the end user.
   - opts (KeywordList): [optional] Optional parameters
-    - :cursor (String.t): The pagination cursor value.
-    - :page_size (integer()): Number of results to return per page.
   ## Returns
 
-  {:ok, MergeHRISClient.Model.PaginatedSyncStatusList.t} on success
+  {:ok, MergeHRISClient.Model.AccountDetails.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec sync_status_list(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.PaginatedSyncStatusList.t} | {:error, Tesla.Env.t}
-  def sync_status_list(connection, authorization, x_account_token, opts \\ []) do
-    optional_params = %{
-      :"cursor" => :query,
-      :"page_size" => :query
-    }
+  @spec account_details_retrieve(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.AccountDetails.t} | {:error, Tesla.Env.t}
+  def account_details_retrieve(connection, authorization, x_account_token, _opts \\ []) do
     %{}
     |> method(:get)
-    |> url("/sync-status")
+    |> url("/account-details")
     |> add_param(:headers, :"Authorization", authorization)
     |> add_param(:headers, :"X-Account-Token", x_account_token)
-    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %MergeHRISClient.Model.PaginatedSyncStatusList{}}
+      { 200, %MergeHRISClient.Model.AccountDetails{}}
     ])
   end
 end

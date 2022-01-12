@@ -11,6 +11,7 @@ defmodule MergeHRISClient.Model.Location do
   defstruct [
     :"id",
     :"remote_id",
+    :"name",
     :"phone_number",
     :"street_1",
     :"street_2",
@@ -24,6 +25,7 @@ defmodule MergeHRISClient.Model.Location do
   @type t :: %__MODULE__{
     :"id" => String.t | nil,
     :"remote_id" => String.t | nil,
+    :"name" => String.t | nil,
     :"phone_number" => String.t | nil,
     :"street_1" => String.t | nil,
     :"street_2" => String.t | nil,

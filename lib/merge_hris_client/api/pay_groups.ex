@@ -2,9 +2,9 @@
 # https://openapi-generator.tech
 # Do not edit the class manually.
 
-defmodule MergeHRISClient.Api.Locations do
+defmodule MergeHRISClient.Api.PayGroups do
   @moduledoc """
-  API calls for all endpoints tagged `Locations`.
+  API calls for all endpoints tagged `PayGroups`.
   """
 
   alias MergeHRISClient.Connection
@@ -12,7 +12,7 @@ defmodule MergeHRISClient.Api.Locations do
 
 
   @doc """
-  Returns a list of `Location` objects.
+  Returns a list of `PayGroup` objects.
 
   ## Parameters
 
@@ -31,11 +31,11 @@ defmodule MergeHRISClient.Api.Locations do
     - :remote_id (String.t): The API provider's ID for the given object.
   ## Returns
 
-  {:ok, MergeHRISClient.Model.PaginatedLocationList.t} on success
+  {:ok, MergeHRISClient.Model.PaginatedPayGroupList.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec locations_list(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.PaginatedLocationList.t} | {:error, Tesla.Env.t}
-  def locations_list(connection, authorization, x_account_token, opts \\ []) do
+  @spec pay_groups_list(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.PaginatedPayGroupList.t} | {:error, Tesla.Env.t}
+  def pay_groups_list(connection, authorization, x_account_token, opts \\ []) do
     optional_params = %{
       :"created_after" => :query,
       :"created_before" => :query,
@@ -49,19 +49,19 @@ defmodule MergeHRISClient.Api.Locations do
     }
     %{}
     |> method(:get)
-    |> url("/locations")
+    |> url("/pay-groups")
     |> add_param(:headers, :"Authorization", authorization)
     |> add_param(:headers, :"X-Account-Token", x_account_token)
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %MergeHRISClient.Model.PaginatedLocationList{}}
+      { 200, %MergeHRISClient.Model.PaginatedPayGroupList{}}
     ])
   end
 
   @doc """
-  Returns a `Location` object with the given `id`.
+  Returns a `PayGroup` object with the given `id`.
 
   ## Parameters
 
@@ -73,24 +73,24 @@ defmodule MergeHRISClient.Api.Locations do
     - :include_remote_data (boolean()): Whether to include the original data Merge fetched from the third-party to produce these models.
   ## Returns
 
-  {:ok, MergeHRISClient.Model.Location.t} on success
+  {:ok, MergeHRISClient.Model.PayGroup.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec locations_retrieve(Tesla.Env.client, String.t, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.Location.t} | {:error, Tesla.Env.t}
-  def locations_retrieve(connection, authorization, x_account_token, id, opts \\ []) do
+  @spec pay_groups_retrieve(Tesla.Env.client, String.t, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.PayGroup.t} | {:error, Tesla.Env.t}
+  def pay_groups_retrieve(connection, authorization, x_account_token, id, opts \\ []) do
     optional_params = %{
       :"include_remote_data" => :query
     }
     %{}
     |> method(:get)
-    |> url("/locations/#{id}")
+    |> url("/pay-groups/#{id}")
     |> add_param(:headers, :"Authorization", authorization)
     |> add_param(:headers, :"X-Account-Token", x_account_token)
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %MergeHRISClient.Model.Location{}}
+      { 200, %MergeHRISClient.Model.PayGroup{}}
     ])
   end
 end

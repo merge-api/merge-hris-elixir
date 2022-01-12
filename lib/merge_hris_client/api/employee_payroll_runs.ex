@@ -23,14 +23,19 @@ defmodule MergeHRISClient.Api.EmployeePayrollRuns do
     - :created_after (DateTime.t): If provided, will only return objects created after this datetime.
     - :created_before (DateTime.t): If provided, will only return objects created before this datetime.
     - :cursor (String.t): The pagination cursor value.
-    - :employee_id (String.t): If provided, will only return time off for this employee.
+    - :employee_id (String.t): If provided, will only return employee payroll runs for this employee.
+    - :ended_after (DateTime.t): If provided, will only return employee payroll runs ended after this datetime.
+    - :ended_before (DateTime.t): If provided, will only return employee payroll runs ended before this datetime.
     - :expand (String.t): Which relations should be returned in expanded form. Multiple relation names should be comma separated without spaces.
+    - :include_deleted_data (boolean()): Whether to include data that was deleted in the third-party service.
     - :include_remote_data (boolean()): Whether to include the original data Merge fetched from the third-party to produce these models.
     - :modified_after (DateTime.t): If provided, will only return objects modified after this datetime.
     - :modified_before (DateTime.t): If provided, will only return objects modified before this datetime.
     - :page_size (integer()): Number of results to return per page.
     - :payroll_run_id (String.t): If provided, will only return employee payroll runs for this employee.
     - :remote_id (String.t): The API provider's ID for the given object.
+    - :started_after (DateTime.t): If provided, will only return employee payroll runs started after this datetime.
+    - :started_before (DateTime.t): If provided, will only return employee payroll runs started before this datetime.
   ## Returns
 
   {:ok, MergeHRISClient.Model.PaginatedEmployeePayrollRunList.t} on success
@@ -43,13 +48,18 @@ defmodule MergeHRISClient.Api.EmployeePayrollRuns do
       :"created_before" => :query,
       :"cursor" => :query,
       :"employee_id" => :query,
+      :"ended_after" => :query,
+      :"ended_before" => :query,
       :"expand" => :query,
+      :"include_deleted_data" => :query,
       :"include_remote_data" => :query,
       :"modified_after" => :query,
       :"modified_before" => :query,
       :"page_size" => :query,
       :"payroll_run_id" => :query,
-      :"remote_id" => :query
+      :"remote_id" => :query,
+      :"started_after" => :query,
+      :"started_before" => :query
     }
     %{}
     |> method(:get)

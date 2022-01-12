@@ -17,6 +17,7 @@ defmodule MergeHRISClient.Api.DeleteAccount do
   ## Parameters
 
   - connection (MergeHRISClient.Connection): Connection to server
+  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
   - x_account_token (String.t): Token identifying the end user.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -24,11 +25,12 @@ defmodule MergeHRISClient.Api.DeleteAccount do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec delete_account_create(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def delete_account_create(connection, x_account_token, _opts \\ []) do
+  @spec delete_account_create(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def delete_account_create(connection, authorization, x_account_token, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/delete-account")
+    |> add_param(:headers, :"Authorization", authorization)
     |> add_param(:headers, :"X-Account-Token", x_account_token)
     |> ensure_body()
     |> Enum.into([])

@@ -22,10 +22,14 @@ defmodule MergeHRISClient.Deserializer do
   def deserialize(model, field, :map, mod, options) do
     case Map.fetch(model, field) do
       {:ok, field_val} ->
-        if !is_nil(field_val) do
+        if !is_nil(field_val) and !is_nil(Enumerable.impl_for field_val) do
           model
-          |> Map.update!(field, &(Map.new(&1, fn {key, val} -> {key, Poison.Decode.decode(val, Keyword.merge(options, [as: struct(mod)]))} end)))
+          |> Map.update!(field, &(Map.new(&1, fn {key, val} -> {key, Poison.Decode.decode(val, Keyword.merge(options, [as: struct(mod)], fn _k, v1, _v2 -> v1 end))} end)))
+        else
+          model
         end
+      _ ->
+        model
     end
   end
   def deserialize(model, field, :date, _, _options) do

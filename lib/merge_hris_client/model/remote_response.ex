@@ -13,6 +13,7 @@ defmodule MergeHRISClient.Model.RemoteResponse do
     :"path",
     :"status",
     :"response",
+    :"response_headers",
     :"headers"
   ]
 
@@ -20,8 +21,9 @@ defmodule MergeHRISClient.Model.RemoteResponse do
     :"method" => String.t,
     :"path" => String.t,
     :"status" => integer(),
-    :"response" => %{optional(String.t) => AnyType},
-    :"headers" => %{optional(String.t) => AnyType} | nil
+    :"response" => %{optional(String.t) => :any},
+    :"response_headers" => %{optional(String.t) => :any} | nil,
+    :"headers" => %{optional(String.t) => :any} | nil
   }
 end
 
@@ -31,4 +33,3 @@ defimpl Poison.Decoder, for: MergeHRISClient.Model.RemoteResponse do
     value
   end
 end
-

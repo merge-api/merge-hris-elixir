@@ -17,18 +17,20 @@ defmodule MergeHRISClient.Api.LinkToken do
   ## Parameters
 
   - connection (MergeHRISClient.Connection): Connection to server
-  - end_user_details_request (EndUserDetailsRequest): 
+  - authorization (String.t): Should include 'Bearer ' followed by your test/production API Key.
+  - end_user_details_request (EndUserDetailsRequest):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
   {:ok, MergeHRISClient.Model.LinkToken.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec link_token_create(Tesla.Env.client, MergeHRISClient.Model.EndUserDetailsRequest.t, keyword()) :: {:ok, MergeHRISClient.Model.LinkToken.t} | {:error, Tesla.Env.t}
-  def link_token_create(connection, end_user_details_request, _opts \\ []) do
+  @spec link_token_create(Tesla.Env.client, String.t, MergeHRISClient.Model.EndUserDetailsRequest.t, keyword()) :: {:ok, MergeHRISClient.Model.LinkToken.t} | {:error, Tesla.Env.t}
+  def link_token_create(connection, authorization, end_user_details_request, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/link-token")
+    |> add_param(:headers, :"Authorization", authorization)
     |> add_param(:body, :body, end_user_details_request)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()

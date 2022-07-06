@@ -19,7 +19,9 @@ defmodule MergeHRISClient.Model.Location do
     :"state",
     :"zip_code",
     :"country",
-    :"remote_data"
+    :"location_type",
+    :"remote_data",
+    :"remote_was_deleted"
   ]
 
   @type t :: %__MODULE__{
@@ -33,7 +35,9 @@ defmodule MergeHRISClient.Model.Location do
     :"state" => String.t | nil,
     :"zip_code" => String.t | nil,
     :"country" => CountryEnum | nil,
-    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil
+    :"location_type" => LocationTypeEnum | nil,
+    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil,
+    :"remote_was_deleted" => boolean() | nil
   }
 end
 
@@ -42,6 +46,7 @@ defimpl Poison.Decoder, for: MergeHRISClient.Model.Location do
   def decode(value, options) do
     value
     |> deserialize(:"country", :struct, MergeHRISClient.Model.CountryEnum, options)
+    |> deserialize(:"location_type", :struct, MergeHRISClient.Model.LocationTypeEnum, options)
     |> deserialize(:"remote_data", :list, MergeHRISClient.Model.RemoteData, options)
   end
 end

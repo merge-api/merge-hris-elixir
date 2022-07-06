@@ -4,7 +4,7 @@
 
 defmodule MergeHRISClient.Model.PayrollRun do
   @moduledoc """
-  # The PayrollRun Object ### Description The `PayrollRun` object is used to represent a payroll run.  ### Usage Example Fetch from the `LIST PayrollRuns` endpoint and filter by `ID` to show all payroll runs.
+  # The PayrollRun Object ### Description The `PayrollRun` object is used to represent a payroll run. This payroll run is not specific to an employee.  ### Usage Example Fetch from the `LIST PayrollRuns` endpoint and filter by `ID` to show all payroll runs.
   """
 
   @derive [Poison.Encoder]
@@ -16,7 +16,8 @@ defmodule MergeHRISClient.Model.PayrollRun do
     :"start_date",
     :"end_date",
     :"check_date",
-    :"remote_data"
+    :"remote_data",
+    :"remote_was_deleted"
   ]
 
   @type t :: %__MODULE__{
@@ -27,7 +28,8 @@ defmodule MergeHRISClient.Model.PayrollRun do
     :"start_date" => DateTime.t | nil,
     :"end_date" => DateTime.t | nil,
     :"check_date" => DateTime.t | nil,
-    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil
+    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil,
+    :"remote_was_deleted" => boolean() | nil
   }
 end
 

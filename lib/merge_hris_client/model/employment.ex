@@ -4,7 +4,7 @@
 
 defmodule MergeHRISClient.Model.Employment do
   @moduledoc """
-  # The Employment Object ### Description The `Employment` object is used to represent an employment position at a company. These are associated with the employee filling the role.  ### Usage Example Fetch from the `LIST Employments` endpoint and filter by `ID` to show all employees.
+  # The Employment Object ### Description The `Employment` object is used to represent an employment position at a company. These are associated with the employee filling the role.  Please note: Employment objects are constructed if the object does not exist in the remote system.  ### Usage Example Fetch from the `LIST Employments` endpoint and filter by `ID` to show all employees.
   """
 
   @derive [Poison.Encoder]
@@ -17,10 +17,12 @@ defmodule MergeHRISClient.Model.Employment do
     :"pay_period",
     :"pay_frequency",
     :"pay_currency",
+    :"pay_group",
     :"flsa_status",
     :"effective_date",
     :"employment_type",
-    :"remote_data"
+    :"remote_data",
+    :"remote_was_deleted"
   ]
 
   @type t :: %__MODULE__{
@@ -32,10 +34,12 @@ defmodule MergeHRISClient.Model.Employment do
     :"pay_period" => PayPeriodEnum | nil,
     :"pay_frequency" => PayFrequencyEnum | nil,
     :"pay_currency" => PayCurrencyEnum | nil,
+    :"pay_group" => String.t | nil,
     :"flsa_status" => FlsaStatusEnum | nil,
     :"effective_date" => DateTime.t | nil,
     :"employment_type" => EmploymentTypeEnum | nil,
-    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil
+    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil,
+    :"remote_was_deleted" => boolean() | nil
   }
 end
 

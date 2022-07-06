@@ -17,17 +17,18 @@ defmodule MergeHRISClient.Api.Locations do
   ## Parameters
 
   - connection (MergeHRISClient.Connection): Connection to server
-  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
+  - authorization (String.t): Should include 'Bearer ' followed by your test/production API Key.
   - x_account_token (String.t): Token identifying the end user.
   - opts (KeywordList): [optional] Optional parameters
     - :created_after (DateTime.t): If provided, will only return objects created after this datetime.
     - :created_before (DateTime.t): If provided, will only return objects created before this datetime.
     - :cursor (String.t): The pagination cursor value.
-    - :include_deleted_data (boolean()): Whether to include data that was deleted in the third-party service.
+    - :include_deleted_data (boolean()): Whether to include data that was marked as deleted by third party webhooks.
     - :include_remote_data (boolean()): Whether to include the original data Merge fetched from the third-party to produce these models.
     - :modified_after (DateTime.t): If provided, will only return objects modified after this datetime.
     - :modified_before (DateTime.t): If provided, will only return objects modified before this datetime.
     - :page_size (integer()): Number of results to return per page.
+    - :remote_fields (String.t): Which fields should be returned in non-normalized form.
     - :remote_id (String.t): The API provider's ID for the given object.
   ## Returns
 
@@ -45,6 +46,7 @@ defmodule MergeHRISClient.Api.Locations do
       :"modified_after" => :query,
       :"modified_before" => :query,
       :"page_size" => :query,
+      :"remote_fields" => :query,
       :"remote_id" => :query
     }
     %{}
@@ -66,11 +68,12 @@ defmodule MergeHRISClient.Api.Locations do
   ## Parameters
 
   - connection (MergeHRISClient.Connection): Connection to server
-  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
+  - authorization (String.t): Should include 'Bearer ' followed by your test/production API Key.
   - x_account_token (String.t): Token identifying the end user.
-  - id (String.t): 
+  - id (String.t):
   - opts (KeywordList): [optional] Optional parameters
     - :include_remote_data (boolean()): Whether to include the original data Merge fetched from the third-party to produce these models.
+    - :remote_fields (String.t): Which fields should be returned in non-normalized form.
   ## Returns
 
   {:ok, MergeHRISClient.Model.Location.t} on success
@@ -79,7 +82,8 @@ defmodule MergeHRISClient.Api.Locations do
   @spec locations_retrieve(Tesla.Env.client, String.t, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.Location.t} | {:error, Tesla.Env.t}
   def locations_retrieve(connection, authorization, x_account_token, id, opts \\ []) do
     optional_params = %{
-      :"include_remote_data" => :query
+      :"include_remote_data" => :query,
+      :"remote_fields" => :query
     }
     %{}
     |> method(:get)

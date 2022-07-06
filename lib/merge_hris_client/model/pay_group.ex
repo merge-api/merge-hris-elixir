@@ -12,14 +12,16 @@ defmodule MergeHRISClient.Model.PayGroup do
     :"id",
     :"remote_id",
     :"pay_group_name",
-    :"remote_data"
+    :"remote_data",
+    :"remote_was_deleted"
   ]
 
   @type t :: %__MODULE__{
     :"id" => String.t | nil,
     :"remote_id" => String.t | nil,
     :"pay_group_name" => String.t | nil,
-    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil
+    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil,
+    :"remote_was_deleted" => boolean() | nil
   }
 end
 

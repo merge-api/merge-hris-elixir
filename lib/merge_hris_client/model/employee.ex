@@ -16,6 +16,7 @@ defmodule MergeHRISClient.Model.Employee do
     :"first_name",
     :"last_name",
     :"display_full_name",
+    :"groups",
     :"work_email",
     :"personal_email",
     :"mobile_phone_number",
@@ -36,7 +37,8 @@ defmodule MergeHRISClient.Model.Employee do
     :"termination_date",
     :"avatar",
     :"remote_data",
-    :"custom_fields"
+    :"custom_fields",
+    :"remote_was_deleted"
   ]
 
   @type t :: %__MODULE__{
@@ -47,6 +49,7 @@ defmodule MergeHRISClient.Model.Employee do
     :"first_name" => String.t | nil,
     :"last_name" => String.t | nil,
     :"display_full_name" => String.t | nil,
+    :"groups" => [String.t] | nil,
     :"work_email" => String.t | nil,
     :"personal_email" => String.t | nil,
     :"mobile_phone_number" => String.t | nil,
@@ -67,7 +70,8 @@ defmodule MergeHRISClient.Model.Employee do
     :"termination_date" => DateTime.t | nil,
     :"avatar" => String.t | nil,
     :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil,
-    :"custom_fields" => %{optional(String.t) => AnyType} | nil
+    :"custom_fields" => %{optional(String.t) => :any} | nil,
+    :"remote_was_deleted" => boolean() | nil
   }
 end
 
@@ -80,7 +84,6 @@ defimpl Poison.Decoder, for: MergeHRISClient.Model.Employee do
     |> deserialize(:"marital_status", :struct, MergeHRISClient.Model.MaritalStatusEnum, options)
     |> deserialize(:"employment_status", :struct, MergeHRISClient.Model.EmploymentStatusEnum, options)
     |> deserialize(:"remote_data", :list, MergeHRISClient.Model.RemoteData, options)
-    |> deserialize(:"custom_fields", :map, MergeHRISClient.Model.AnyType, options)
+    |> deserialize(:"custom_fields", :map, MergeHRISClient.Model.RemoteData, Keyword.merge(options, [as: :any]))
   end
 end
-

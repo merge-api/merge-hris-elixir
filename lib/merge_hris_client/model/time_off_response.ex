@@ -11,13 +11,15 @@ defmodule MergeHRISClient.Model.TimeOffResponse do
   defstruct [
     :"model",
     :"warnings",
-    :"errors"
+    :"errors",
+    :"logs"
   ]
 
   @type t :: %__MODULE__{
     :"model" => MergeHRISClient.Model.TimeOff.t,
     :"warnings" => [MergeHRISClient.Model.WarningValidationProblem.t],
-    :"errors" => [MergeHRISClient.Model.ErrorValidationProblem.t]
+    :"errors" => [MergeHRISClient.Model.ErrorValidationProblem.t],
+    :"logs" => [MergeHRISClient.Model.DebugModeLog.t] | nil
   }
 end
 
@@ -28,6 +30,7 @@ defimpl Poison.Decoder, for: MergeHRISClient.Model.TimeOffResponse do
     |> deserialize(:"model", :struct, MergeHRISClient.Model.TimeOff, options)
     |> deserialize(:"warnings", :list, MergeHRISClient.Model.WarningValidationProblem, options)
     |> deserialize(:"errors", :list, MergeHRISClient.Model.ErrorValidationProblem, options)
+    |> deserialize(:"logs", :list, MergeHRISClient.Model.DebugModeLog, options)
   end
 end
 

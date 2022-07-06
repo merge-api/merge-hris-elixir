@@ -4,7 +4,7 @@
 
 defmodule MergeHRISClient.Model.Issue do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
@@ -22,7 +22,7 @@ defmodule MergeHRISClient.Model.Issue do
     :"id" => String.t | nil,
     :"status" => MergeHRISClient.Model.IssueStatusEnum.t | nil,
     :"error_description" => String.t,
-    :"end_user" => %{optional(String.t) => AnyType} | nil,
+    :"end_user" => %{optional(String.t) => :any} | nil,
     :"first_incident_time" => DateTime.t | nil,
     :"last_incident_time" => DateTime.t | nil,
     :"is_muted" => boolean() | nil
@@ -34,7 +34,6 @@ defimpl Poison.Decoder, for: MergeHRISClient.Model.Issue do
   def decode(value, options) do
     value
     |> deserialize(:"status", :struct, MergeHRISClient.Model.IssueStatusEnum, options)
-    |> deserialize(:"end_user", :map, MergeHRISClient.Model.AnyType, options)
+    |> deserialize(:"end_user", :map, MergeHRISClient.Model.RemoteData, Keyword.merge(options, [as: :any]))
   end
 end
-

@@ -19,7 +19,7 @@ defmodule MergeHRISClient.Model.AccountIntegration do
 
   @type t :: %__MODULE__{
     :"name" => String.t,
-    :"categories" => [String.t] | nil,
+    :"categories" => [MergeHRISClient.Model.CategoriesEnum.t] | nil,
     :"image" => String.t | nil,
     :"square_image" => String.t | nil,
     :"color" => String.t | nil,
@@ -28,8 +28,10 @@ defmodule MergeHRISClient.Model.AccountIntegration do
 end
 
 defimpl Poison.Decoder, for: MergeHRISClient.Model.AccountIntegration do
-  def decode(value, _options) do
+  import MergeHRISClient.Deserializer
+  def decode(value, options) do
     value
+    |> deserialize(:"categories", :list, MergeHRISClient.Model.CategoriesEnum, options)
   end
 end
 

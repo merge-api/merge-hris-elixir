@@ -17,17 +17,21 @@ defmodule MergeHRISClient.Api.Issues do
   ## Parameters
 
   - connection (MergeHRISClient.Connection): Connection to server
-  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
+  - authorization (String.t): Should include 'Bearer ' followed by your test/production API Key.
   - opts (KeywordList): [optional] Optional parameters
-    - :account_token (String.t): 
+    - :account_token (String.t):
     - :cursor (String.t): The pagination cursor value.
     - :end_date (String.t): If included, will only include issues whose most recent action occurred before this time
-    - :end_user_organization_name (String.t): 
+    - :end_user_organization_name (String.t):
+    - :first_incident_time_after (DateTime.t): If provided, will only return issues whose first incident time was after this datetime.
+    - :first_incident_time_before (DateTime.t): If provided, will only return issues whose first incident time was before this datetime.
     - :include_muted (String.t): If True, will include muted issues
-    - :integration_name (String.t): 
+    - :integration_name (String.t):
+    - :last_incident_time_after (DateTime.t): If provided, will only return issues whose first incident time was after this datetime.
+    - :last_incident_time_before (DateTime.t): If provided, will only return issues whose first incident time was before this datetime.
     - :page_size (integer()): Number of results to return per page.
     - :start_date (String.t): If included, will only include issues whose most recent action occurred after this time
-    - :status (String.t): 
+    - :status (String.t):
   ## Returns
 
   {:ok, MergeHRISClient.Model.PaginatedIssueList.t} on success
@@ -40,8 +44,12 @@ defmodule MergeHRISClient.Api.Issues do
       :"cursor" => :query,
       :"end_date" => :query,
       :"end_user_organization_name" => :query,
+      :"first_incident_time_after" => :query,
+      :"first_incident_time_before" => :query,
       :"include_muted" => :query,
       :"integration_name" => :query,
+      :"last_incident_time_after" => :query,
+      :"last_incident_time_before" => :query,
       :"page_size" => :query,
       :"start_date" => :query,
       :"status" => :query
@@ -64,22 +72,20 @@ defmodule MergeHRISClient.Api.Issues do
   ## Parameters
 
   - connection (MergeHRISClient.Connection): Connection to server
-  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
-  - x_account_token (String.t): Token identifying the end user.
-  - id (String.t): 
+  - authorization (String.t): Should include 'Bearer ' followed by your test/production API Key.
+  - id (String.t):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
   {:ok, MergeHRISClient.Model.Issue.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec issues_retrieve(Tesla.Env.client, String.t, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.Issue.t} | {:error, Tesla.Env.t}
-  def issues_retrieve(connection, authorization, x_account_token, id, _opts \\ []) do
+  @spec issues_retrieve(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.Issue.t} | {:error, Tesla.Env.t}
+  def issues_retrieve(connection, authorization, id, _opts \\ []) do
     %{}
     |> method(:get)
     |> url("/issues/#{id}")
     |> add_param(:headers, :"Authorization", authorization)
-    |> add_param(:headers, :"X-Account-Token", x_account_token)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([

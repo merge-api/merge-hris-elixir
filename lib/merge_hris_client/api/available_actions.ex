@@ -17,7 +17,7 @@ defmodule MergeHRISClient.Api.AvailableActions do
   ## Parameters
 
   - connection (MergeHRISClient.Connection): Connection to server
-  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
+  - authorization (String.t): Should include 'Bearer ' followed by your test/production API Key.
   - x_account_token (String.t): Token identifying the end user.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns

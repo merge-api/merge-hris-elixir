@@ -17,13 +17,13 @@ defmodule MergeHRISClient.Api.PayGroups do
   ## Parameters
 
   - connection (MergeHRISClient.Connection): Connection to server
-  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
+  - authorization (String.t): Should include 'Bearer ' followed by your test/production API Key.
   - x_account_token (String.t): Token identifying the end user.
   - opts (KeywordList): [optional] Optional parameters
     - :created_after (DateTime.t): If provided, will only return objects created after this datetime.
     - :created_before (DateTime.t): If provided, will only return objects created before this datetime.
     - :cursor (String.t): The pagination cursor value.
-    - :include_deleted_data (boolean()): Whether to include data that was deleted in the third-party service.
+    - :include_deleted_data (boolean()): Whether to include data that was marked as deleted by third party webhooks.
     - :include_remote_data (boolean()): Whether to include the original data Merge fetched from the third-party to produce these models.
     - :modified_after (DateTime.t): If provided, will only return objects modified after this datetime.
     - :modified_before (DateTime.t): If provided, will only return objects modified before this datetime.
@@ -66,9 +66,9 @@ defmodule MergeHRISClient.Api.PayGroups do
   ## Parameters
 
   - connection (MergeHRISClient.Connection): Connection to server
-  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
+  - authorization (String.t): Should include 'Bearer ' followed by your test/production API Key.
   - x_account_token (String.t): Token identifying the end user.
-  - id (String.t): 
+  - id (String.t):
   - opts (KeywordList): [optional] Optional parameters
     - :include_remote_data (boolean()): Whether to include the original data Merge fetched from the third-party to produce these models.
   ## Returns

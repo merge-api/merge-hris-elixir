@@ -14,7 +14,7 @@ defmodule MergeHRISClient.Model.Tax do
     :"name",
     :"amount",
     :"employer_tax",
-    :"remote_data"
+    :"remote_was_deleted"
   ]
 
   @type t :: %__MODULE__{
@@ -23,7 +23,7 @@ defmodule MergeHRISClient.Model.Tax do
     :"name" => String.t | nil,
     :"amount" => float() | nil,
     :"employer_tax" => boolean() | nil,
-    :"remote_data" => [%{optional(String.t) => AnyType}] | nil
+    :"remote_was_deleted" => boolean() | nil
   }
 end
 

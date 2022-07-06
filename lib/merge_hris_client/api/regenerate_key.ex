@@ -17,8 +17,8 @@ defmodule MergeHRISClient.Api.RegenerateKey do
   ## Parameters
 
   - connection (MergeHRISClient.Connection): Connection to server
-  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
-  - remote_key_for_regeneration_request (RemoteKeyForRegenerationRequest): 
+  - authorization (String.t): Should include 'Bearer ' followed by your test/production API Key.
+  - remote_key_for_regeneration_request (RemoteKeyForRegenerationRequest):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 

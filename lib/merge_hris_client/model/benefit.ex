@@ -16,7 +16,8 @@ defmodule MergeHRISClient.Model.Benefit do
     :"benefit_plan_type",
     :"employee_contribution",
     :"company_contribution",
-    :"remote_data"
+    :"remote_data",
+    :"remote_was_deleted"
   ]
 
   @type t :: %__MODULE__{
@@ -24,10 +25,11 @@ defmodule MergeHRISClient.Model.Benefit do
     :"remote_id" => String.t | nil,
     :"employee" => String.t | nil,
     :"provider_name" => String.t | nil,
-    :"benefit_plan_type" => BenefitPlanTypeEnum | nil,
+    :"benefit_plan_type" => String.t | nil,
     :"employee_contribution" => float() | nil,
     :"company_contribution" => float() | nil,
-    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil
+    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil,
+    :"remote_was_deleted" => boolean() | nil
   }
 end
 
@@ -35,7 +37,6 @@ defimpl Poison.Decoder, for: MergeHRISClient.Model.Benefit do
   import MergeHRISClient.Deserializer
   def decode(value, options) do
     value
-    |> deserialize(:"benefit_plan_type", :struct, MergeHRISClient.Model.BenefitPlanTypeEnum, options)
     |> deserialize(:"remote_data", :list, MergeHRISClient.Model.RemoteData, options)
   end
 end

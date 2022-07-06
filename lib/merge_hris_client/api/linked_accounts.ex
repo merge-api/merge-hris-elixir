@@ -17,18 +17,18 @@ defmodule MergeHRISClient.Api.LinkedAccounts do
   ## Parameters
 
   - connection (MergeHRISClient.Connection): Connection to server
-  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
+  - authorization (String.t): Should include 'Bearer ' followed by your test/production API Key.
   - opts (KeywordList): [optional] Optional parameters
-    - :category (String.t): 
+    - :category (String.t):
     - :cursor (String.t): The pagination cursor value.
-    - :end_user_email_address (String.t): 
-    - :end_user_organization_name (String.t): 
-    - :end_user_origin_id (String.t): 
-    - :end_user_origin_ids (String.t): Comma-separated list of EndUser origin IDs, making it possible to specify multiple EndUsers at once
-    - :id (String.t): 
-    - :ids (String.t): Comma-separated list of LinkedAccount IDs, making it possible to specify multiple LinkedAccounts at once
-    - :integration_name (String.t): 
-    - :is_test_account (String.t): If included, will only include test linked accounts. If not included, will only include non-test linked accounts
+    - :end_user_email_address (String.t): If provided, will only return linked accounts associated with the given email address.
+    - :end_user_organization_name (String.t): If provided, will only return linked accounts associated with the given organization name.
+    - :end_user_origin_id (String.t): If provided, will only return linked accounts associated with the given origin ID.
+    - :end_user_origin_ids (String.t): Comma-separated list of EndUser origin IDs, making it possible to specify multiple EndUsers at once.
+    - :id (String.t):
+    - :ids (String.t): Comma-separated list of LinkedAccount IDs, making it possible to specify multiple LinkedAccounts at once.
+    - :integration_name (String.t): If provided, will only return linked accounts associated with the given integration name.
+    - :is_test_account (String.t): If included, will only include test linked accounts. If not included, will only include non-test linked accounts.
     - :page_size (integer()): Number of results to return per page.
     - :status (String.t): Filter by status. Options: `COMPLETE`, `INCOMPLETE`, `RELINK_NEEDED`
   ## Returns

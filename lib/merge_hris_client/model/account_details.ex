@@ -11,21 +11,25 @@ defmodule MergeHRISClient.Model.AccountDetails do
   defstruct [
     :"id",
     :"integration",
+    :"integration_slug",
     :"category",
     :"end_user_origin_id",
     :"end_user_organization_name",
     :"end_user_email_address",
-    :"status"
+    :"status",
+    :"webhook_listener_url"
   ]
 
   @type t :: %__MODULE__{
     :"id" => String.t | nil,
     :"integration" => String.t | nil,
+    :"integration_slug" => String.t | nil,
     :"category" => CategoryEnum | nil,
     :"end_user_origin_id" => String.t | nil,
     :"end_user_organization_name" => String.t | nil,
     :"end_user_email_address" => String.t | nil,
-    :"status" => String.t | nil
+    :"status" => String.t | nil,
+    :"webhook_listener_url" => String.t | nil
   }
 end
 

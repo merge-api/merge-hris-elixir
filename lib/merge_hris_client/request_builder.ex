@@ -92,7 +92,6 @@ defmodule MergeHRISClient.RequestBuilder do
     request
     |> Map.put_new(:headers, [])
     |> Map.update!(:headers, fn existing_value -> existing_value ++ [{key, value}] end)
-
   end
   def add_param(request, :file, name, path) do
     request

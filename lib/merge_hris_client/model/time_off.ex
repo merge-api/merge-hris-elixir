@@ -20,7 +20,8 @@ defmodule MergeHRISClient.Model.TimeOff do
     :"request_type",
     :"start_time",
     :"end_time",
-    :"remote_data"
+    :"remote_data",
+    :"remote_was_deleted"
   ]
 
   @type t :: %__MODULE__{
@@ -35,7 +36,8 @@ defmodule MergeHRISClient.Model.TimeOff do
     :"request_type" => RequestTypeEnum | nil,
     :"start_time" => DateTime.t | nil,
     :"end_time" => DateTime.t | nil,
-    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil
+    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil,
+    :"remote_was_deleted" => boolean() | nil
   }
 end
 

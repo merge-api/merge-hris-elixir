@@ -13,21 +13,25 @@ defmodule MergeHRISClient.Model.EndUserDetailsRequest do
     :"end_user_organization_name",
     :"end_user_origin_id",
     :"categories",
-    :"integration"
+    :"integration",
+    :"link_expiry_mins"
   ]
 
   @type t :: %__MODULE__{
     :"end_user_email_address" => String.t,
     :"end_user_organization_name" => String.t,
     :"end_user_origin_id" => String.t,
-    :"categories" => [String.t] | nil,
-    :"integration" => String.t | nil
+    :"categories" => [MergeHRISClient.Model.CategoriesEnum.t],
+    :"integration" => String.t | nil,
+    :"link_expiry_mins" => integer() | nil
   }
 end
 
 defimpl Poison.Decoder, for: MergeHRISClient.Model.EndUserDetailsRequest do
-  def decode(value, _options) do
+  import MergeHRISClient.Deserializer
+  def decode(value, options) do
     value
+    |> deserialize(:"categories", :list, MergeHRISClient.Model.CategoriesEnum, options)
   end
 end
 

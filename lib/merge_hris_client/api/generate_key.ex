@@ -17,8 +17,8 @@ defmodule MergeHRISClient.Api.GenerateKey do
   ## Parameters
 
   - connection (MergeHRISClient.Connection): Connection to server
-  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
-  - generate_remote_key_request (GenerateRemoteKeyRequest): 
+  - authorization (String.t): Should include 'Bearer ' followed by your test/production API Key.
+  - generate_remote_key_request (GenerateRemoteKeyRequest):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 

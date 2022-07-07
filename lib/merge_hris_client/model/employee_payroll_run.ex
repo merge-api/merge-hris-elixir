@@ -21,7 +21,8 @@ defmodule MergeHRISClient.Model.EmployeePayrollRun do
     :"earnings",
     :"deductions",
     :"taxes",
-    :"remote_data"
+    :"remote_data",
+    :"remote_was_deleted"
   ]
 
   @type t :: %__MODULE__{
@@ -37,7 +38,8 @@ defmodule MergeHRISClient.Model.EmployeePayrollRun do
     :"earnings" => [MergeHRISClient.Model.Earning.t] | nil,
     :"deductions" => [MergeHRISClient.Model.Deduction.t] | nil,
     :"taxes" => [MergeHRISClient.Model.Tax.t] | nil,
-    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil
+    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil,
+    :"remote_was_deleted" => boolean() | nil
   }
 end
 

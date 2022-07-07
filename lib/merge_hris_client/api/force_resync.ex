@@ -17,15 +17,15 @@ defmodule MergeHRISClient.Api.ForceResync do
   ## Parameters
 
   - connection (MergeHRISClient.Connection): Connection to server
-  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
+  - authorization (String.t): Should include 'Bearer ' followed by your test/production API Key.
   - x_account_token (String.t): Token identifying the end user.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, MergeHRISClient.Model.SyncStatus.t} on success
+  {:ok, [%SyncStatus{}, ...]} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec sync_status_resync_create(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.SyncStatus.t} | {:error, Tesla.Env.t}
+  @spec sync_status_resync_create(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, list(MergeHRISClient.Model.SyncStatus.t)} | {:error, Tesla.Env.t}
   def sync_status_resync_create(connection, authorization, x_account_token, _opts \\ []) do
     %{}
     |> method(:post)
@@ -36,7 +36,7 @@ defmodule MergeHRISClient.Api.ForceResync do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %MergeHRISClient.Model.SyncStatus{}}
+      { 200, [%MergeHRISClient.Model.SyncStatus{}]}
     ])
   end
 end

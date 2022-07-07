@@ -13,7 +13,8 @@ defmodule MergeHRISClient.Model.Team do
     :"remote_id",
     :"name",
     :"parent_team",
-    :"remote_data"
+    :"remote_data",
+    :"remote_was_deleted"
   ]
 
   @type t :: %__MODULE__{
@@ -21,7 +22,8 @@ defmodule MergeHRISClient.Model.Team do
     :"remote_id" => String.t | nil,
     :"name" => String.t | nil,
     :"parent_team" => String.t | nil,
-    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil
+    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil,
+    :"remote_was_deleted" => boolean() | nil
   }
 end
 

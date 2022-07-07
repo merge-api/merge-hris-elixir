@@ -16,6 +16,7 @@ defmodule MergeHRISClient.Model.AccountDetailsAndActions do
     :"end_user_origin_id",
     :"end_user_organization_name",
     :"end_user_email_address",
+    :"webhook_listener_url",
     :"integration"
   ]
 
@@ -27,6 +28,7 @@ defmodule MergeHRISClient.Model.AccountDetailsAndActions do
     :"end_user_origin_id" => String.t | nil,
     :"end_user_organization_name" => String.t,
     :"end_user_email_address" => String.t,
+    :"webhook_listener_url" => String.t,
     :"integration" => MergeHRISClient.Model.AccountDetailsAndActionsIntegration.t | nil
   }
 end

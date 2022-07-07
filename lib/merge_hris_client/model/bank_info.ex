@@ -17,7 +17,8 @@ defmodule MergeHRISClient.Model.BankInfo do
     :"bank_name",
     :"account_type",
     :"remote_created_at",
-    :"remote_data"
+    :"remote_data",
+    :"remote_was_deleted"
   ]
 
   @type t :: %__MODULE__{
@@ -29,7 +30,8 @@ defmodule MergeHRISClient.Model.BankInfo do
     :"bank_name" => String.t | nil,
     :"account_type" => AccountTypeEnum | nil,
     :"remote_created_at" => DateTime.t | nil,
-    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil
+    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil,
+    :"remote_was_deleted" => boolean() | nil
   }
 end
 

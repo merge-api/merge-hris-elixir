@@ -13,8 +13,10 @@ defmodule MergeHRISClient.Model.DataPassthroughRequest do
     :"path",
     :"base_url_override",
     :"data",
+    :"multipart_form_data",
     :"headers",
-    :"request_format"
+    :"request_format",
+    :"normalize_response"
   ]
 
   @type t :: %__MODULE__{
@@ -22,8 +24,10 @@ defmodule MergeHRISClient.Model.DataPassthroughRequest do
     :"path" => String.t,
     :"base_url_override" => String.t | nil,
     :"data" => String.t | nil,
-    :"headers" => %{optional(String.t) => AnyType} | nil,
-    :"request_format" => RequestFormatEnum | nil
+    :"multipart_form_data" => [MergeHRISClient.Model.MultipartFormFieldRequest.t] | nil,
+    :"headers" => %{optional(String.t) => :any} | nil,
+    :"request_format" => RequestFormatEnum | nil,
+    :"normalize_response" => boolean() | nil
   }
 end
 
@@ -32,8 +36,8 @@ defimpl Poison.Decoder, for: MergeHRISClient.Model.DataPassthroughRequest do
   def decode(value, options) do
     value
     |> deserialize(:"method", :struct, MergeHRISClient.Model.MethodEnum, options)
-    |> deserialize(:"headers", :map, MergeHRISClient.Model.AnyType, options)
+    |> deserialize(:"multipart_form_data", :list, MergeHRISClient.Model.MultipartFormFieldRequest, options)
+    |> deserialize(:"headers", :map, MergeHRISClient.Model.RemoteData, Keyword.merge(options, [as: :any]))
     |> deserialize(:"request_format", :struct, MergeHRISClient.Model.RequestFormatEnum, options)
   end
 end
-

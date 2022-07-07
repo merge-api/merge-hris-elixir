@@ -14,7 +14,8 @@ defmodule MergeHRISClient.Model.Deduction do
     :"name",
     :"employee_deduction",
     :"company_deduction",
-    :"remote_data"
+    :"remote_data",
+    :"remote_was_deleted"
   ]
 
   @type t :: %__MODULE__{
@@ -23,13 +24,16 @@ defmodule MergeHRISClient.Model.Deduction do
     :"name" => String.t | nil,
     :"employee_deduction" => float() | nil,
     :"company_deduction" => float() | nil,
-    :"remote_data" => [%{optional(String.t) => AnyType}] | nil
+    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil,
+    :"remote_was_deleted" => boolean() | nil
   }
 end
 
 defimpl Poison.Decoder, for: MergeHRISClient.Model.Deduction do
-  def decode(value, _options) do
+  import MergeHRISClient.Deserializer
+  def decode(value, options) do
     value
+    |> deserialize(:"remote_data", :list, MergeHRISClient.Model.RemoteData, options)
   end
 end
 

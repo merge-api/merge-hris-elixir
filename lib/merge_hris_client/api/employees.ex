@@ -12,28 +12,100 @@ defmodule MergeHRISClient.Api.Employees do
 
 
   @doc """
+  Creates an `Employee` object with the given values.
+
+  ## Parameters
+
+  - connection (MergeHRISClient.Connection): Connection to server
+  - authorization (String.t): Should include 'Bearer ' followed by your test/production API Key.
+  - x_account_token (String.t): Token identifying the end user.
+  - employee_endpoint_request (EmployeeEndpointRequest):
+  - opts (KeywordList): [optional] Optional parameters
+    - :is_debug_mode (boolean()): Whether to include debug fields (such as log file links) in the response.
+    - :run_async (boolean()): Whether or not third-party updates should be run asynchronously.
+  ## Returns
+
+  {:ok, MergeHRISClient.Model.EmployeeResponse.t} on success
+  {:error, Tesla.Env.t} on failure
+  """
+  @spec employees_create(Tesla.Env.client, String.t, String.t, MergeHRISClient.Model.EmployeeEndpointRequest.t, keyword()) :: {:ok, MergeHRISClient.Model.EmployeeResponse.t} | {:error, Tesla.Env.t}
+  def employees_create(connection, authorization, x_account_token, employee_endpoint_request, opts \\ []) do
+    optional_params = %{
+      :"is_debug_mode" => :query,
+      :"run_async" => :query
+    }
+    %{}
+    |> method(:post)
+    |> url("/employees")
+    |> add_param(:headers, :"Authorization", authorization)
+    |> add_param(:headers, :"X-Account-Token", x_account_token)
+    |> add_param(:body, :body, employee_endpoint_request)
+    |> add_optional_params(optional_params, opts)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> evaluate_response([
+      { 201, %MergeHRISClient.Model.EmployeeResponse{}}
+    ])
+  end
+
+  @doc """
+  Ignores a specific row based on the `model_id` in the url. These records will have their properties set to null, and will not be updated in future syncs. The \"reason\" and \"message\" fields in the request body will be stored for audit purposes.
+
+  ## Parameters
+
+  - connection (MergeHRISClient.Connection): Connection to server
+  - authorization (String.t): Should include 'Bearer ' followed by your test/production API Key.
+  - x_account_token (String.t): Token identifying the end user.
+  - model_id (String.t):
+  - ignore_common_model_request (IgnoreCommonModelRequest):
+  - opts (KeywordList): [optional] Optional parameters
+  ## Returns
+
+  {:ok, MergeHRISClient.Model.IgnoreCommonModel.t} on success
+  {:error, Tesla.Env.t} on failure
+  """
+  @spec employees_ignore_create(Tesla.Env.client, String.t, String.t, String.t, MergeHRISClient.Model.IgnoreCommonModelRequest.t, keyword()) :: {:ok, MergeHRISClient.Model.IgnoreCommonModel.t} | {:error, Tesla.Env.t}
+  def employees_ignore_create(connection, authorization, x_account_token, model_id, ignore_common_model_request, _opts \\ []) do
+    %{}
+    |> method(:post)
+    |> url("/employees/ignore/#{model_id}")
+    |> add_param(:headers, :"Authorization", authorization)
+    |> add_param(:headers, :"X-Account-Token", x_account_token)
+    |> add_param(:body, :body, ignore_common_model_request)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> evaluate_response([
+      { 200, %MergeHRISClient.Model.IgnoreCommonModel{}}
+    ])
+  end
+
+  @doc """
   Returns a list of `Employee` objects.
 
   ## Parameters
 
   - connection (MergeHRISClient.Connection): Connection to server
-  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
+  - authorization (String.t): Should include 'Bearer ' followed by your test/production API Key.
   - x_account_token (String.t): Token identifying the end user.
   - opts (KeywordList): [optional] Optional parameters
     - :company_id (String.t): If provided, will only return employees for this company.
     - :created_after (DateTime.t): If provided, will only return objects created after this datetime.
     - :created_before (DateTime.t): If provided, will only return objects created before this datetime.
     - :cursor (String.t): The pagination cursor value.
-    - :expand (String.t): Which relations should be returned in expanded form. Multiple relation names should be comma separated without spaces.
-    - :include_deleted_data (boolean()): Whether to include data that was deleted in the third-party service.
+    - :display_full_name (String.t): If provided, will only return employees with this display name.
+    - :employment_status (String.t): If provided, will only return employees with this employment status.
+    - :first_name (String.t): If provided, will only return employees with this first name.
+    - :include_deleted_data (boolean()): Whether to include data that was marked as deleted by third party webhooks.
     - :include_remote_data (boolean()): Whether to include the original data Merge fetched from the third-party to produce these models.
     - :include_sensitive_fields (boolean()): Whether to include sensitive fields (such as social security numbers) in the response.
+    - :last_name (String.t): If provided, will only return employees with this last name.
     - :manager_id (String.t): If provided, will only return employees for this manager.
     - :modified_after (DateTime.t): If provided, will only return objects modified after this datetime.
     - :modified_before (DateTime.t): If provided, will only return objects modified before this datetime.
     - :page_size (integer()): Number of results to return per page.
     - :pay_group_id (String.t): If provided, will only return employees for this pay group
     - :personal_email (String.t): If provided, will only return Employees with this personal email
+    - :remote_fields (String.t): Which fields should be returned in non-normalized form.
     - :remote_id (String.t): The API provider's ID for the given object.
     - :team_id (String.t): If provided, will only return employees for this team.
     - :work_email (String.t): If provided, will only return Employees with this work email
@@ -50,16 +122,20 @@ defmodule MergeHRISClient.Api.Employees do
       :"created_after" => :query,
       :"created_before" => :query,
       :"cursor" => :query,
-      :"expand" => :query,
+      :"display_full_name" => :query,
+      :"employment_status" => :query,
+      :"first_name" => :query,
       :"include_deleted_data" => :query,
       :"include_remote_data" => :query,
       :"include_sensitive_fields" => :query,
+      :"last_name" => :query,
       :"manager_id" => :query,
       :"modified_after" => :query,
       :"modified_before" => :query,
       :"page_size" => :query,
       :"pay_group_id" => :query,
       :"personal_email" => :query,
+      :"remote_fields" => :query,
       :"remote_id" => :query,
       :"team_id" => :query,
       :"work_email" => :query,
@@ -79,18 +155,46 @@ defmodule MergeHRISClient.Api.Employees do
   end
 
   @doc """
+  Returns metadata for `Employee` POSTs.
+
+  ## Parameters
+
+  - connection (MergeHRISClient.Connection): Connection to server
+  - authorization (String.t): Should include 'Bearer ' followed by your test/production API Key.
+  - x_account_token (String.t): Token identifying the end user.
+  - opts (KeywordList): [optional] Optional parameters
+  ## Returns
+
+  {:ok, MergeHRISClient.Model.MetaResponse.t} on success
+  {:error, Tesla.Env.t} on failure
+  """
+  @spec employees_meta_post_retrieve(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.MetaResponse.t} | {:error, Tesla.Env.t}
+  def employees_meta_post_retrieve(connection, authorization, x_account_token, _opts \\ []) do
+    %{}
+    |> method(:get)
+    |> url("/employees/meta/post")
+    |> add_param(:headers, :"Authorization", authorization)
+    |> add_param(:headers, :"X-Account-Token", x_account_token)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> evaluate_response([
+      { 200, %MergeHRISClient.Model.MetaResponse{}}
+    ])
+  end
+
+  @doc """
   Returns an `Employee` object with the given `id`.
 
   ## Parameters
 
   - connection (MergeHRISClient.Connection): Connection to server
-  - authorization (String.t): Should include 'Bearer ' followed by your production API Key.
+  - authorization (String.t): Should include 'Bearer ' followed by your test/production API Key.
   - x_account_token (String.t): Token identifying the end user.
-  - id (String.t): 
+  - id (String.t):
   - opts (KeywordList): [optional] Optional parameters
-    - :expand (String.t): Which relations should be returned in expanded form. Multiple relation names should be comma separated without spaces.
     - :include_remote_data (boolean()): Whether to include the original data Merge fetched from the third-party to produce these models.
     - :include_sensitive_fields (boolean()): Whether to include sensitive fields (such as social security numbers) in the response.
+    - :remote_fields (String.t): Which fields should be returned in non-normalized form.
   ## Returns
 
   {:ok, MergeHRISClient.Model.Employee.t} on success
@@ -99,9 +203,9 @@ defmodule MergeHRISClient.Api.Employees do
   @spec employees_retrieve(Tesla.Env.client, String.t, String.t, String.t, keyword()) :: {:ok, MergeHRISClient.Model.Employee.t} | {:error, Tesla.Env.t}
   def employees_retrieve(connection, authorization, x_account_token, id, opts \\ []) do
     optional_params = %{
-      :"expand" => :query,
       :"include_remote_data" => :query,
-      :"include_sensitive_fields" => :query
+      :"include_sensitive_fields" => :query,
+      :"remote_fields" => :query
     }
     %{}
     |> method(:get)

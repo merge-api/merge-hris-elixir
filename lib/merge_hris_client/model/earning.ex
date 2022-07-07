@@ -13,15 +13,15 @@ defmodule MergeHRISClient.Model.Earning do
     :"employee_payroll_run",
     :"amount",
     :"type",
-    :"remote_data"
+    :"remote_was_deleted"
   ]
 
   @type t :: %__MODULE__{
     :"id" => String.t | nil,
     :"employee_payroll_run" => String.t | nil,
     :"amount" => float() | nil,
-    :"type" => TypeEnum | nil,
-    :"remote_data" => [%{optional(String.t) => AnyType}] | nil
+    :"type" => EarningTypeEnum | nil,
+    :"remote_was_deleted" => boolean() | nil
   }
 end
 
@@ -29,7 +29,7 @@ defimpl Poison.Decoder, for: MergeHRISClient.Model.Earning do
   import MergeHRISClient.Deserializer
   def decode(value, options) do
     value
-    |> deserialize(:"type", :struct, MergeHRISClient.Model.TypeEnum, options)
+    |> deserialize(:"type", :struct, MergeHRISClient.Model.EarningTypeEnum, options)
   end
 end
 

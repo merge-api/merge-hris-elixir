@@ -4,7 +4,7 @@
 
 defmodule MergeHRISClient.Model.Company do
   @moduledoc """
-  # The Company Object ### Description The `Company` object is used to represent a Company.  ### Usage Example Fetch from the `LIST Companies` endpoint and filter by `ID` to show all companies.
+  # The Company Object ### Description The `Company` object is used to represent a Company within the HRIS / Payroll system.  ### Usage Example Fetch from the `LIST Companies` endpoint and filter by `ID` to show all companies.
   """
 
   @derive [Poison.Encoder]
@@ -14,7 +14,8 @@ defmodule MergeHRISClient.Model.Company do
     :"legal_name",
     :"display_name",
     :"eins",
-    :"remote_data"
+    :"remote_data",
+    :"remote_was_deleted"
   ]
 
   @type t :: %__MODULE__{
@@ -23,7 +24,8 @@ defmodule MergeHRISClient.Model.Company do
     :"legal_name" => String.t | nil,
     :"display_name" => String.t | nil,
     :"eins" => [String.t] | nil,
-    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil
+    :"remote_data" => [MergeHRISClient.Model.RemoteData.t] | nil,
+    :"remote_was_deleted" => boolean() | nil
   }
 end
 

@@ -4,7 +4,7 @@
 
 defmodule MergeHRISClient.Model.RemoteDataRequest do
   @moduledoc """
-  
+
   """
 
   @derive [Poison.Encoder]
@@ -15,7 +15,7 @@ defmodule MergeHRISClient.Model.RemoteDataRequest do
 
   @type t :: %__MODULE__{
     :"path" => String.t,
-    :"data" => %{optional(String.t) => AnyType} | nil
+    :"data" => %{optional(String.t) => :any} | nil
   }
 end
 
@@ -25,4 +25,3 @@ defimpl Poison.Decoder, for: MergeHRISClient.Model.RemoteDataRequest do
     value
   end
 end
-
